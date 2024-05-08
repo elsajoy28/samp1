@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games for All!!</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #add8e6; /* Light blue background */
+            color: #ffffff; /* White font color */
+        }
+
+        header {
+            background-color: #0053a0; /* Dark blue for the header */
+            color: #ffffff; /* White font color */
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff; /* White font color */
+            font-weight: bold;
+            padding: 8px 15px;
+            border: 3px solid #ffffff;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #ffffff;
+            color: #0053a0;
+        }
+
+        main {
+            min-height: 400px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #0053a0;
+            border-radius: 15px;
+            margin: 30px 15%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            background-color: #0053a0; /* Same dark blue as header */
+            color: #ffffff; /* White font color */
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #settings {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #settings label,
+        #settings select,
+        #settings input {
+            margin: 0 10px;
+            color: #ffffff;
+        }
+
+        #settings input[type="range"] {
+            cursor: ew-resize;
+            background: #ffffff;
+            outline: none;
+            border: 2px solid #0053a0;
+            border-radius: 5px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .options-column {
+            flex: 1;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Very light transparent blue */
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+            color: #ffffff;
+        }
+
+        #searchSection {
+            text-align: center;
+            margin-top: 20px;
+            background-color: #0053a0;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+        }
+
+        #searchInput {
+            padding: 10px;
+            margin-top: 10px;
+            width: 80%;
+            border: 3px solid #ffffff;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+
+        #searchInput:focus {
+            border-color: #0053a0; /* Dark blue */
+            outline: none;
+        }
+
+        #searchResults {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+            color: #ffffff;
+        }
+
+        #searchResults li {
+            margin: 5px 0;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            border: 3px solid #ffffff;
+            border-radius: 8px;
+        }
+
+        #searchResults li:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .game-buttons button {
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            border: 3px solid #ffffff; /* Visible border for buttons */
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+            color: #ffffff;
+        }
+
+        .game-buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+            color: #0053a0;
+        }
+
+        .game-info {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .tictactoe-grid {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tictactoe-row {
+            display: flex;
+        }
+
+        .tictactoe-square {
+            width: 120px;
+            height: 120px;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            border: 3px solid #ffffff;
+            margin: 0;
+            color: #ffffff;
+        }
+    </style>
+    <script>
+        const gamesData = [
+            { title: "Hangman", rating: "5", accessibility: "Fun for all" },
+            { title: "Tic Tac Toe", rating: "4.5", accessibility: "Fun for all" },
+            { title: "Rock Paper Scissors", rating: "4", accessibility: "Fun for all" },
+            { title: "Bokurano Daiboukenn 3", rating: "5", accessibility: "Games for the visually impaired" },
+            { title: "The Last of Us Part II", rating: "4.5", accessibility: "Games for the visually impaired" },
+            { title: "SEQUENCE STORM", rating: "4", accessibility: "Games for the visually impaired" },
+            { title: "Quentin C playroom", rating: "3.5", accessibility: "Games for the visually impaired" },
+            { title: "Gears Tactics", rating: "3", accessibility: "Games for the visually impaired" },
+            { title: "Fortnite", rating: "4", accessibility: "Games for the auditory disability" },
+            { title: "The Last Of Us Part II", rating: "3.5", accessibility: "Games for the auditory disability" },
+            { title: "Watch Dogs: Legion", rating: "4.5", accessibility: "Games for the auditory disability" },
+            { title: "Moss", rating: "4", accessibility: "Games for the auditory disability" },
+            { title: "Ancestors: The Humankind Odyssey", rating: "3", accessibility: "Games for the auditory disability" },
+            { title: "Fall Guys", rating: "4.5", accessibility: "Games for people with mental disability" },
+            { title: "Among Us", rating: "3.5", accessibility: "Games for people with mental disability" },
+            { title: "Ring Fit Adventure", rating: "4", accessibility: "Games for people with mental disability" },
+            { title: "Dungeons & Dragons", rating: "4.5", accessibility: "Games for people with mental disability" },
+            { title: "Minecraft", rating: "4", accessibility: "Games for people with mental disability" }
+        ];
+
+        function searchGames() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const results = gamesData.filter(game => game.title.toLowerCase().includes(query));
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = results.map(game => `<li>${game.title} - Rating: ${game.rating}, Accessibility: ${game.accessibility}</li>`).join('');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Games for All!!</h1>
+        <nav>
+            <ul>
+                <li><a href="#!" onclick="showGame('hangman')">Hangman</a></li>
+                <li><a href="#!" onclick="showGame('ticTacToe')">Tic Tac Toe</a></li>
+                <li><a href="#!" onclick="showGame('rockPaperScissors')">Rock Paper Scissors</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="settings">
+        <label for="bgColor">Background Color:</label>
+        <input type="color" id="bgColor" onchange="changeBackgroundColor(this.value)">
+        <label for="fontSelect">Choose Font:</label>
+        <select id="fontSelect" onchange="changeFont(this.value)">
+            <option value="Arial">Arial</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Georgia">Georgia</option>
+        </select>
+        <label for="fontSizeRange">Font Size:</label>
+        <input type="range" id="fontSizeRange" min="12" max="24" value="16" onchange="changeFontSize(this.value + 'px')">
+    </div>
+
+    <main id="gameArea">
+        <!-- Game content will be loaded here -->
+    </main>
+
+    <div id="accessibilityOptions">
+        <h2>Accessibility Options</h2>
+        <div class="container">
+            <div class="options-column">
+                <h3>Text Options</h3>
+                <label for="charSizeRange">Character Size:</label>
+                <input type="range" id="charSizeRange" min="10" max="30" step="1" value="16">
+                <label for="charSpaceRange">Character Space:</label>
+                <input type="range" id="charSpaceRange" min="-1" max="1" step="0.1" value="0">
+            </div>
+            <div class="options-column">
+                <h3>Color Options</h3>
+                <label for="fontColorSelect">Font Color:</label>
+                <input type="color" id="fontColorSelect">
+                <label for="pageColorSelect">Page Color:</label>
+                <input type="color" id="pageColorSelect">
+            </div>
+        </div>
+    </div>
+
+    <div id="searchSection">
+        <h2>Search Games</h2>
+        <input type="text" id="searchInput" placeholder="Search for a game..." oninput="searchGames()">
+        <button onclick="searchGames()">Search</button>
+        <ul id="searchResults"></ul>
+    </div>
+
+    <footer>
+        <p>© 2024 FunZone Games</p>
+    </footer>
+
+    <script>
+        function changeBackgroundColor(color) {
+            document.body.style.backgroundColor = color;
+        }
+
+        function changeFont(font) {
+            document.body.style.fontFamily = font;
+        }
+
+        function changeFontSize(size) {
+            document.body.style.fontSize = size;
+        }
+
+        function showGame(game) {
+            const gameArea = document.getElementById('gameArea');
+            switch (game) {
+                case 'hangman':
+                    selectedWord = ["hello", "world", "javascript", "hangman"][Math.floor(Math.random() * 4)];
+                    remainingGuesses = 6;
+                    guessedLetters = [];
+                    gameArea.innerHTML = `
+                        <h2>Hangman Game</h2>
+                        <div id="wordSpotlight" class="game-info">${"_ ".repeat(selectedWord.length)}</div>
+                        <div id="alphabet" class="game-buttons"></div>
+                        <p id="guesses" class="game-info">Remaining Guesses: 6</p>
+                    `;
+                    initializeHangman();
+                    break;
+                case 'ticTacToe':
+                    currentPlayer = 'X';
+                    gameActive = true;
+                    gameState = Array(9).fill(null);
+                    gameArea.innerHTML = `
+                        <h2>Tic Tac Toe</h2>
+                        <div id="ticTacToeGrid" class="tictactoe-grid"></div>
+                        <p id="gameStatus" class="game-info">Player X's turn</p>
+                        <button onclick="initializeTicTacToe()" class="game-buttons">Restart Game</button>
+                    `;
+                    initializeTicTacToe();
+                    break;
+                case 'rockPaperScissors':
+                    gameArea.innerHTML = `
+                        <h2>Rock Paper Scissors</h2>
+                        <div id="rockPaperScissorsButtons" class="game-buttons">
+                            <button onclick="playRPS('rock')">Rock</button>
+                            <button onclick="playRPS('paper')">Paper</button>
+                            <button onclick="playRPS('scissors')">Scissors</button>
+                        </div>
+                        <p id="rpsResult" class="game-info"></p>
+                    `;
+                    break;
+                default:
+                    gameArea.innerHTML = `<p>Game ${game} is not available</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
